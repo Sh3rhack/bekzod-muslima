@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Begzod & Muslima To'yi | 26.06.2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; overflow: hidden; background: #1a0a1e; height: 100dvh; width: 100vw; }
+        .great-vibes { font-family: 'Great Vibes', cursive; }
+        .playfair { font-family: 'Playfair Display', serif; }
+        .amiri { font-family: 'Amiri', serif; }
+
+        /* ===== DOOR SCREEN ===== */
+        .door-screen {
+            position: fixed; inset: 0; z-index: 50;
+            background: linear-gradient(160deg, #1a0a1e 0%, #2d0a2e 30%, #4a1130 60%, #2d0a2e 100%);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; perspective: 1500px; cursor: pointer;
+        }
+        .door-screen.opened { pointer-events: none; }
+
+        .door-left, .door-right {
+            position: absolute; top: 0; width: 50.5%; height: 100%;
+            background: linear-gradient(135deg, #3a0e2a 0%, #2d0a2e 50%, #1a0a1e 100%);
+            transition: transform 1.5s cubic-bezier(0.6, 0, 0.2, 1);
+            backface-visibility: hidden;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: inset 0 0 60px rgba(0,0,0,.5);
+        }
+        .door-left {
+            left: 0; transform-origin: left center;
+            border-right: 1px solid rgba(139,26,74,.4);
+            border-radius: 0 4px 4px 0;
+        }
+        .door-right {
+            right: 0; transform-origin: right center;
+            border-left: 1px solid rgba(139,26,74,.4);
+            border-radius: 4px 0 0 4px;
+        }
+        .door-screen.opened .door-left { transform: rotateY(-130deg); }
+        .door-screen.opened .door-right { transform: rotateY(130deg); }
+
+        .door-pattern {
+            position: absolute; inset: 0; opacity: .08;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23E91E63' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='12' fill='none' stroke='%23E91E63' stroke-width='0.3'/%3E%3C/svg%3E");
+        }
+
+        .door-handle {
+            width: 10px; height: 50px; border-radius: 5px;
+            background: linear-gradient(180deg, #D4AF37, #8B6914);
+            position: absolute; top: 50%; transform: translateY(-50%);
+            box-shadow: 0 0 15px rgba(212,175,55,.3);
+        }
+        .door-left .door-handle { right: 20px; }
+        .door-right .door-handle { left: 20px; }
+
+        .door-center {
+            position: relative; z-index: 5; text-align: center;
+            transition: opacity .5s ease .2s;
+        }
+        .door-screen.opened .door-center { opacity: 0; }
+
+        .door-center-glow {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 300px; height: 300px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(139,26,74,.3), rgba(193,24,91,.1), transparent);
+            filter: blur(40px); animation: glow-pulse 3s ease-in-out infinite;
+        }
+        @keyframes glow-pulse { 0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.2)} }
+
+        .door-tap-text {
+            animation: tap-bounce 2s ease-in-out infinite;
+        }
+        @keyframes tap-bounce { 0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1} }
+
+        .petal {
+            position: absolute; border-radius: 50% 0 50% 0; pointer-events: none;
+            animation: petal-fall linear infinite; opacity: 0;
+        }
+        @keyframes petal-fall {
+            0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: .4; }
+            50% { transform: translateY(50vh) rotate(180deg) translateX(30px); opacity: .3; }
+            90% { opacity: .05; }
+            100% { transform: translateY(100vh) rotate(360deg) translateX(-20px); opacity: 0; }
+        }
+
+        .star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; animation: twinkle var(--dur) ease-in-out infinite; }
+        @keyframes twinkle { 0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.7;transform:scale(1.8)} }
+
+        /* Flash */
+        .flash-overlay { position: fixed; inset: 0; z-index: 100; pointer-events: none; background: radial-gradient(circle,rgba(233,30,99,.4),rgba(139,26,74,.2),transparent); animation: flash 1.2s ease-out forwards; }
+        @keyframes flash { 0%{opacity:1;transform:scale(.2)}100%{opacity:0;transform:scale(5)} }
+
+        /* ===== INVITATION ===== */
+        .invitation-screen {
+            position: fixed; inset: 0; z-index: 40;
+            background: #FFF9F5;
+            overflow-y: auto; overflow-x: hidden;
+            opacity: 0; transform: scale(.95);
+            transition: all 1.2s cubic-bezier(0.4,0,0.2,1) .3s;
+        }
+        .invitation-screen.show { opacity: 1; transform: scale(1); }
+
+        .islamic-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='%238B1A4A' stroke-width='0.4' opacity='0.04'/%3E%3Cpath d='M40 12L68 40L40 68L12 40Z' fill='none' stroke='%238B1A4A' stroke-width='0.3' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .corner-decor { position: absolute; width: 35px; height: 35px; }
+        .corner-decor::before,.corner-decor::after { content:''; position:absolute; background:#8B1A4A; }
+        .corner-tl{top:0;left:0} .corner-tl::before{top:0;left:0;width:35px;height:2px} .corner-tl::after{top:0;left:0;width:2px;height:35px}
+        .corner-tr{top:0;right:0} .corner-tr::before{top:0;right:0;width:35px;height:2px} .corner-tr::after{top:0;right:0;width:2px;height:35px}
+        .corner-bl{bottom:0;left:0} .corner-bl::before{bottom:0;left:0;width:35px;height:2px} .corner-bl::after{bottom:0;left:0;width:2px;height:35px}
+        .corner-br{bottom:0;right:0} .corner-br::before{bottom:0;right:0;width:35px;height:2px} .corner-br::after{bottom:0;right:0;width:2px;height:35px}
+
+        .ornament-divider { display:flex; align-items:center; gap:10px; justify-content:center; }
+        .ornament-line { width:50px; height:1px; background:linear-gradient(90deg,transparent,#8B1A4A,transparent); }
+        .ornament-diamond { width:7px; height:7px; background:#8B1A4A; transform:rotate(45deg); flex-shrink:0; }
+
+        .inv-element { opacity:0; transform:translateY(25px); transition:all .9s cubic-bezier(.4,0,.2,1); }
+        .inv-element.visible { opacity:1; transform:translateY(0); }
+
+        .gold-shimmer {
+            background: linear-gradient(90deg, #6A0D3A, #8B1A4A, #E91E63, #8B1A4A, #6A0D3A);
+            background-size: 300% 100%; -webkit-background-clip:text; background-clip:text;
+            -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer { 0%{background-position:-300% 0}100%{background-position:300% 0} }
+
+        .crescent-glow { animation: crescent-glow 3s ease-in-out infinite; }
+        @keyframes crescent-glow { 0%,100%{filter:drop-shadow(0 0 6px rgba(139,26,74,.3))}50%{filter:drop-shadow(0 0 20px rgba(233,30,99,.5))} }
+
+        .islamic-arch {
+            position: relative; border: 2px solid rgba(139,26,74,.3);
+            border-radius: 50% 50% 4px 4px / 28% 28% 4px 4px;
+            padding: 28px 18px; background: rgba(255,255,255,.8); backdrop-filter: blur(8px);
+        }
+
+        .cal-card { background:#fff; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,.04); border:1px solid rgba(139,26,74,.15); overflow:hidden; }
+        .cal-header { background:linear-gradient(135deg,#8B1A4A,#C2185B); padding:12px 16px; text-align:center; color:#fff; }
+        .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; padding:12px 10px; }
+        .cal-day-name { text-align:center; font-size:10px; color:#999; font-weight:600; padding:4px 0; }
+        .cal-day { text-align:center; font-size:13px; color:#555; padding:6px 0; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; margin:0 auto; font-weight:500; }
+        .cal-day.highlight { background:linear-gradient(135deg,#8B1A4A,#E91E63); color:#fff; font-weight:700; box-shadow:0 2px 12px rgba(139,26,74,.35); animation:cal-pulse 2s ease-in-out infinite; }
+        @keyframes cal-pulse { 0%,100%{box-shadow:0 2px 12px rgba(139,26,74,.35)}50%{box-shadow:0 2px 24px rgba(233,30,99,.6)} }
+
+        .map-btn { display:flex; align-items:center; justify-content:center; gap:10px; padding:13px 20px; border-radius:12px; font-weight:600; font-size:13px; transition:all .3s; width:100%; border:none; cursor:pointer; text-decoration:none; }
+        .map-btn-google { background:linear-gradient(135deg,#8B1A4A,#C2185B); color:#fff; }
+        .map-btn-google:hover{box-shadow:0 6px 24px rgba(139,26,74,.3);transform:translateY(-2px)}
+        .map-btn-yandex { background:#fff; color:#8B1A4A; border:1.5px solid rgba(139,26,74,.3)!important; }
+        .map-btn-yandex:hover{background:rgba(139,26,74,.03);transform:translateY(-2px)}
+
+        .form-input { width:100%; padding:13px 16px; border-radius:10px; border:1.5px solid rgba(139,26,74,.2); background:#fff; font-size:14px; font-family:'Inter',sans-serif; color:#3a1020; transition:border-color .3s,box-shadow .3s; outline:none; }
+        .form-input::placeholder{color:#bbb} .form-input:focus{border-color:#8B1A4A;box-shadow:0 0 0 3px rgba(139,26,74,.08)}
+        .form-input.error{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.08)}
+        textarea.form-input{resize:none;min-height:80px}
+
+        .radio-group { display:flex; gap:12px; }
+        .radio-card { flex:1; padding:12px 16px; border-radius:10px; border:1.5px solid rgba(139,26,74,.2); background:#fff; cursor:pointer; text-align:center; font-size:14px; font-weight:500; color:#8B1A4A; transition:all .3s; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .radio-card:hover{border-color:rgba(139,26,74,.4)}
+        .radio-card.active { background:rgba(139,26,74,.06); border-color:#8B1A4A; color:#8B1A4A; font-weight:600; }
+        .radio-card input{display:none}
+
+        .guest-btns { display:flex; gap:8px; flex-wrap:wrap; }
+        .guest-btn { width:44px; height:44px; border-radius:10px; border:1.5px solid rgba(139,26,74,.2); background:#fff; cursor:pointer; font-size:15px; font-weight:600; color:#8B1A4A; transition:all .3s; display:flex; align-items:center; justify-content:center; }
+        .guest-btn:hover{border-color:rgba(139,26,74,.4)}
+        .guest-btn.active { background:rgba(139,26,74,.06); border-color:#8B1A4A; font-weight:700; color:#8B1A4A; }
+
+        .submit-btn { width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg,#8B1A4A,#E91E63); color:#fff; font-size:15px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .3s; box-shadow:0 4px 16px rgba(139,26,74,.25); }
+        .submit-btn:hover{box-shadow:0 6px 28px rgba(139,26,74,.4);transform:translateY(-2px)}
+        .submit-btn:active{transform:translateY(0)}
+        .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+        .submit-success { text-align:center; padding:20px; animation:fadeInUp .5s ease; }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)} }
+
+        .rose-particle { position:fixed; border-radius:50% 0 50% 0; pointer-events:none; z-index:45; opacity:0; animation:rose-fall linear infinite; }
+        @keyframes rose-fall { 0%{transform:translateY(-10px) rotate(0) translateX(0);opacity:0}10%{opacity:.3}50%{transform:translateY(50vh) rotate(180deg) translateX(20px);opacity:.2}90%{opacity:.05}100%{transform:translateY(100vh) rotate(360deg) translateX(-15px);opacity:0} }
+
+        .countdown-box { background:rgba(139,26,74,.05); border:1px solid rgba(139,26,74,.1); border-radius:10px; padding:10px 14px; min-width:65px; text-align:center; }
+
+        .venue-card { background:#fff; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,.03); border:1px solid rgba(139,26,74,.1); }
+        .invitation-screen::-webkit-scrollbar{width:3px} .invitation-screen::-webkit-scrollbar-track{background:transparent} .invitation-screen::-webkit-scrollbar-thumb{background:rgba(139,26,74,.2);border-radius:2px}
+
+        .envelope-img { animation: envelope-breathe 3s ease-in-out infinite; }
+        @keyframes envelope-breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.03)} }
+
+        .music-player { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-top: 1px solid rgba(139,26,74,.12); padding: 8px 16px; display: flex; align-items: center; gap: 12px; transform: translateY(100%); transition: transform .5s cubic-bezier(.4,0,.2,1); }
+        .music-player.show { transform: translateY(0); }
+        .music-btn { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #8B1A4A, #E91E63); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; transition: all .3s; }
+        .music-btn:hover { box-shadow: 0 4px 16px rgba(139,26,74,.3); }
+        .music-btn.playing .play-icon { display: none; } .music-btn.playing .pause-icon { display: block; }
+        .music-btn:not(.playing) .play-icon { display: block; } .music-btn:not(.playing) .pause-icon { display: none; }
+        .music-progress { flex: 1; height: 3px; background: rgba(139,26,74,.1); border-radius: 2px; overflow: hidden; }
+        .music-progress-fill { height: 100%; background: linear-gradient(90deg, #8B1A4A, #E91E63); width: 0%; transition: width .1s linear; }
+
+        .form-card { background: #fff; border-radius: 20px; box-shadow: 0 4px 24px rgba(0,0,0,.04); border: 1px solid rgba(139,26,74,.1); padding: 28px 22px; }
+
+        .lang-switcher { position: absolute; top: 16px; right: 16px; z-index: 55; display: flex; background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-radius: 20px; border: 1px solid rgba(139,26,74,.12); overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+        .lang-btn { padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; background: transparent; border: none; color: #8B1A4A; transition: all .2s; }
+        .lang-btn.active { background: linear-gradient(135deg, #8B1A4A, #E91E63); color: #fff; }
+
+        .time-icon-men { color: #5C6BC0; } .time-icon-women { color: #E91E63; }
+    </style>
+</head>
+<body>
+
+<!-- ===== DOOR SCREEN ===== -->
+<div id="doorScreen" class="door-screen" onclick="openDoors()">
+    <div id="petalsContainer" class="absolute inset-0 overflow-hidden pointer-events-none z-20"></div>
+    <div id="starsContainer" class="absolute inset-0 overflow-hidden pointer-events-none z-10"></div>
+    
+    <div class="door-left">
+        <div class="door-pattern"></div>
+        <div class="door-handle"></div>
+    </div>
+    <div class="door-right">
+        <div class="door-pattern"></div>
+        <div class="door-handle"></div>
+    </div>
+    
+    <div class="door-center relative z-30">
+        <div class="door-center-glow"></div>
+        <div class="relative">
+            <div class="crescent-glow mb-4 flex justify-center">
+                <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 5C25 5 5 25 5 50s20 45 45 45c-15-8-25-24-25-42s10-34 25-42c0-2 0-4 0-6z" fill="#D4AF37" opacity=".9"/>
+                    <circle cx="70" cy="20" r="7" fill="#D4AF37" opacity=".9"/>
+                </svg>
+            </div>
+            <p class="amiri text-2xl text-center text-amber-300/80 mb-4 leading-relaxed" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+            <div class="ornament-divider mb-5"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+            <h1 class="great-vibes text-5xl text-white/90 tracking-wide mb-2">Begzod</h1>
+            <p class="playfair text-3xl text-amber-300/60 mb-2">&</p>
+            <h1 class="great-vibes text-5xl text-white/90 tracking-wide mb-5">Muslima</h1>
+            <div class="ornament-divider mb-5"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+            <p class="text-white/40 text-sm tracking-wider">26 IYUN 2026</p>
+            <div class="mt-6 door-tap-text">
+                <iconify-icon icon="lucide:hand-metal" width="20" style="color:rgba(212,175,55,.6)"></iconify-icon>
+                <p class="text-amber-300/50 text-xs tracking-[.2em] uppercase mt-1" data-i18n="door_open">Bosing va oching</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== INVITATION SCREEN ===== -->
+<div id="invitationScreen" class="invitation-screen islamic-bg">
+    <div id="roseParticles" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
+    <div class="lang-switcher">
+        <button class="lang-btn active" id="langUz" onclick="setLanguage('uz')">UZ</button>
+        <button class="lang-btn" id="langRu" onclick="setLanguage('ru')">RU</button>
+        <button class="lang-btn" id="langEn" onclick="setLanguage('en')">EN</button>
+    </div>
+    <div class="relative z-20 min-h-screen flex flex-col items-center px-5 py-10 pb-20">
+        <div class="inv-element crescent-glow mb-4" data-delay="200">
+            <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+                <path d="M50 5C25 5 5 25 5 50s20 45 45 45c-15-8-25-24-25-42s10-34 25-42c0-2 0-4 0-6z" fill="#8B1A4A" opacity=".85"/>
+                <circle cx="70" cy="20" r="7" fill="#8B1A4A" opacity=".85"/>
+            </svg>
+        </div>
+        <div class="inv-element mb-2" data-delay="400">
+            <p class="amiri text-3xl text-center gold-shimmer leading-relaxed" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        </div>
+        <div class="inv-element mb-6" data-delay="600">
+            <div class="ornament-divider"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+        </div>
+        <div class="inv-element w-full max-w-md" data-delay="800">
+            <div class="islamic-arch">
+                <div class="corner-decor corner-tl"></div><div class="corner-decor corner-tr"></div>
+                <div class="corner-decor corner-bl"></div><div class="corner-decor corner-br"></div>
+                <div class="text-center mb-5">
+                    <p class="text-rose-400/50 text-[10px] font-semibold tracking-[.3em] uppercase mb-3">✦ <span data-i18n="inv_label">To'y Taklifnomasi</span> ✦</p>
+                    <h2 class="playfair text-xl text-rose-900/70 font-medium leading-relaxed" data-i18n="inv_text">Hurmat bilan sizni<br>to'ymizga taklif qilamiz</h2>
+                </div>
+                <div class="text-center mb-4"><h3 class="great-vibes text-5xl gold-shimmer tracking-wide" style="line-height:1.3">Begzod</h3></div>
+                <div class="text-center my-2"><div class="ornament-divider"><div class="ornament-line"></div><span class="playfair text-2xl text-rose-400/50">&</span><div class="ornament-line"></div></div></div>
+                <div class="text-center mb-5"><h3 class="great-vibes text-5xl gold-shimmer tracking-wide" style="line-height:1.3">Muslima</h3></div>
+                <div class="ornament-divider mb-4"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+                <div class="text-center px-1">
+                    <p class="amiri text-lg text-rose-800/60 leading-relaxed mb-1.5" dir="rtl">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</p>
+                    <p class="text-rose-900/35 text-xs italic leading-relaxed" data-i18n="verse_trans">"Va Uning oyatlaridan — o'zingizdan juftlarni yaratishi dur, ki ularga mutma'in bo'lingiz"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="inv-element w-full max-w-xs mt-7" data-delay="1000">
+            <div class="cal-card">
+                <div class="cal-header"><div class="text-xs font-semibold tracking-[.15em] uppercase" data-i18n="cal_month">Iyun 2026</div></div>
+                <div class="cal-grid">
+                    <div class="cal-day-name">Du</div><div class="cal-day-name">Se</div><div class="cal-day-name">Cho</div><div class="cal-day-name">Pa</div><div class="cal-day-name">Ju</div><div class="cal-day-name">Sha</div><div class="cal-day-name">Ya</div>
+                    <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div>
+                    <div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div>
+                    <div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day">20</div><div class="cal-day">21</div>
+                    <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day highlight">26</div><div class="cal-day">27</div><div class="cal-day">28</div>
+                    <div class="cal-day">29</div><div class="cal-day">30</div>
+                </div>
+            </div>
+            <div class="text-center mt-1.5"><span class="text-rose-800/35 text-[10px] tracking-wider font-medium" data-i18n="cal_day">JUMA</span></div>
+        </div>
+
+        <!-- Venue -->
+        <div class="inv-element w-full max-w-md mt-5" data-delay="1200">
+            <div class="venue-card p-5 text-center">
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <iconify-icon icon="lucide:map-pin" width="18" style="color:#8B1A4A"></iconify-icon>
+                    <span class="text-rose-400/50 text-[10px] font-semibold tracking-[.2em] uppercase" data-i18n="venue_label">Manzil</span>
+                </div>
+                <div class="playfair text-xl font-semibold text-rose-900/80 mb-1">"Oqsaroy" To'yxonasi</div>
+                <div class="text-rose-800/40 text-sm" data-i18n="venue_address">Buxoro shahri</div>
+                <div class="flex items-center justify-center gap-4 mt-4 pt-4" style="border-top:1px solid rgba(139,26,74,.08)">
+                    <div class="text-center flex-1">
+                        <div class="text-rose-800/35 text-[10px] tracking-wider font-semibold uppercase mb-1" data-i18n="venue_men">Erkaklar</div>
+                        <div class="flex items-center justify-center gap-1.5">
+                            <iconify-icon icon="lucide:clock" width="14" class="time-icon-men"></iconify-icon>
+                            <span class="playfair text-lg font-semibold text-rose-900/75">07:00</span>
+                        </div>
+                    </div>
+                    <div style="width:1px;height:36px;background:rgba(139,26,74,.1)"></div>
+                    <div class="text-center flex-1">
+                        <div class="text-rose-800/35 text-[10px] tracking-wider font-semibold uppercase mb-1" data-i18n="venue_women">Ayollar</div>
+                        <div class="flex items-center justify-center gap-1.5">
+                            <iconify-icon icon="lucide:clock" width="14" class="time-icon-women"></iconify-icon>
+                            <span class="playfair text-lg font-semibold text-rose-900/75">11:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Countdown -->
+        <div class="inv-element w-full max-w-md mt-5" data-delay="1400">
+            <div class="text-center mb-2"><span class="text-rose-400/45 text-[10px] font-semibold tracking-[.25em] uppercase" data-i18n="countdown_label">To'ygacha qoldi</span></div>
+            <div class="flex justify-center gap-2.5" id="countdown">
+                <div class="countdown-box"><div class="text-xl font-bold text-rose-900" id="days">---</div><div class="text-rose-400/40 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_d">Kun</div></div>
+                <div class="countdown-box"><div class="text-xl font-bold text-rose-900" id="hours">--</div><div class="text-rose-400/40 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_h">Soat</div></div>
+                <div class="countdown-box"><div class="text-xl font-bold text-rose-900" id="minutes">--</div><div class="text-rose-400/40 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_m">Daq</div></div>
+                <div class="countdown-box"><div class="text-xl font-bold text-rose-900" id="seconds">--</div><div class="text-rose-400/40 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_s">Son</div></div>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="inv-element w-full max-w-md mt-5 space-y-2.5" data-delay="1500">
+            <a href="https://maps.app.goo.gl/oqsaroybukhara" target="_blank" rel="noopener" class="map-btn map-btn-google">
+                <iconify-icon icon="lucide:map" width="18"></iconify-icon> <span data-i18n="map_google">Google Mapsda ochish</span>
+            </a>
+            <a href="https://yandex.com/maps/?text=Oqsaroy%20Bukhara" target="_blank" rel="noopener" class="map-btn map-btn-yandex">
+                <iconify-icon icon="lucide:navigation" width="18"></iconify-icon> <span data-i18n="map_yandex">Yandex Xaritada ochish</span>
+            </a>
+        </div>
+
+        <div class="inv-element mt-8 mb-2" data-delay="1600"><div class="ornament-divider"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div></div>
+
+        <!-- RSVP Form -->
+        <div class="inv-element w-full max-w-md mt-4" data-delay="1800">
+            <div class="form-card">
+                <div class="text-center mb-5">
+                    <h3 class="playfair text-2xl text-rose-900/75 font-semibold mb-1" data-i18n="f_title">Ishtirok eting</h3>
+                    <p class="text-rose-800/35 text-sm" data-i18n="f_subtitle">Iltimos, ishtirok etishingizni tasdiqlang</p>
+                </div>
+                <div class="text-center mb-6">
+                    <svg class="envelope-img inline-block" width="120" height="90" viewBox="0 0 120 90" fill="none">
+                        <rect x="5" y="15" width="110" height="70" rx="6" fill="#FFF0F3" stroke="#8B1A4A" stroke-width="1.5"/>
+                        <path d="M5 21L60 58L115 21" stroke="#8B1A4A" stroke-width="1.5" fill="none"/>
+                        <path d="M5 15L60 52L115 15" stroke="#C2185B" stroke-width="1" opacity=".3"/>
+                        <rect x="42" y="35" width="36" height="24" rx="3" fill="#8B1A4A" opacity=".08" stroke="#8B1A4A" stroke-width="1"/>
+                        <path d="M52 44L56 48L64 40" stroke="#8B1A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <form id="rsvpForm" class="space-y-4" onsubmit="return false;">
+                    <div><label class="block text-rose-900/50 text-xs font-semibold tracking-wider uppercase mb-1.5" data-i18n="f_name_label">Ism familiyangiz</label><input type="text" id="guestName" class="form-input" data-i18n-ph="f_name_ph" placeholder="Ism familiyangizni kiriting" required></div>
+                    <div><label class="block text-rose-900/50 text-xs font-semibold tracking-wider uppercase mb-1.5" data-i18n="f_phone_label">Telefon raqamingiz</label><input type="tel" id="guestPhone" class="form-input" data-i18n-ph="f_phone_ph" placeholder="+998 __ ___ __ __" required></div>
+                    <div>
+                        <label class="block text-rose-900/50 text-xs font-semibold tracking-wider uppercase mb-2" data-i18n="f_attend_label">Ishtirok etasizmi?</label>
+                        <div class="radio-group">
+                            <label class="radio-card" id="radioYes" onclick="selectAttendance('ha')"><input type="radio" name="attendance" value="ha"><iconify-icon icon="lucide:check-circle" width="18" style="color:#2D9B7E"></iconify-icon><span data-i18n="f_yes">Ha</span></label>
+                            <label class="radio-card" id="radioNo" onclick="selectAttendance('yoq')"><input type="radio" name="attendance" value="yoq"><iconify-icon icon="lucide:x-circle" width="18" style="color:#ef4444"></iconify-icon><span data-i18n="f_no">Yo'q</span></label>
+                        </div>
+                    </div>
+                    <div id="guestCountSection" style="display:none">
+                        <label class="block text-rose-900/50 text-xs font-semibold tracking-wider uppercase mb-2" data-i18n="f_guests_label">Mehmonlar soni</label>
+                        <div class="guest-btns">
+                            <button type="button" class="guest-btn" onclick="selectGuests(1)">1</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(2)">2</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(3)">3</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(4)">4</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(5)" style="width:auto;padding:0 14px">+5</button>
+                        </div>
+                    </div>
+                    <div><label class="block text-rose-900/50 text-xs font-semibold tracking-wider uppercase mb-1.5" data-i18n="f_wish_label">Tabrik so'zi</label><textarea id="guestWish" class="form-input" data-i18n-ph="f_wish_ph" placeholder="Kelin-kuyovga tilaklaringiz..." rows="3"></textarea></div>
+                    <button type="submit" class="submit-btn" id="submitBtn" onclick="submitRSVP()"><span id="btnText" data-i18n="f_submit">Yuborish</span><iconify-icon icon="lucide:send" width="16" style="margin-left:6px;vertical-align:middle"></iconify-icon></button>
+                </form>
+                <div id="successMsg" class="hidden submit-success">
+                    <div class="text-5xl mb-3">🤲</div>
+                    <p class="playfair text-2xl text-rose-900/75 font-semibold mb-1" data-i18n="f_success_title">Rahmat!</p>
+                    <p class="text-rose-800/35 text-sm" data-i18n="f_success_sub">Xabaringiz qabul qilindi</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="inv-element text-center mt-10 mb-6" data-delay="2000">
+            <div class="ornament-divider mb-4"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+            <p class="amiri text-xl text-rose-700/50 leading-relaxed mb-1.5" dir="rtl">بَارَكَ ٱللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا</p>
+            <p class="text-rose-800/25 text-xs" data-i18n="blessing_trans">Alloh sizlarni barakali qilsin</p>
+        </div>
+        <div class="inv-element text-center pb-8" data-delay="2200"><p class="text-rose-800/15 text-xs tracking-wider">Begzod & Muslima • 26.06.2026</p></div>
+    </div>
+</div>
+
+<div class="music-player" id="musicPlayer">
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()"><iconify-icon icon="lucide:play" width="16" class="play-icon"></iconify-icon><iconify-icon icon="lucide:pause" width="16" class="pause-icon"></iconify-icon></button>
+    <div class="music-progress"><div class="music-progress-fill" id="musicProgress"></div></div>
+</div>
+
+<audio id="bgMusic" loop preload="auto"><source src="nashed.mp3" type="audio/mpeg"></audio>
+
+<script>
+const translations = {
+    uz: { door_open: "Bosing va oching", inv_label: "To'y Taklifnomasi", inv_text: "Hurmat bilan sizni<br>to'ymizga taklif qilamiz", verse_trans: "\"Va Uning oyatlaridan — o'zingizdan juftlarni yaratishi dur, ki ularga mutma'in bo'lingiz\"", cal_month: "Iyun 2026", cal_day: "JUMA", venue_label: "Manzil", venue_address: "Buxoro shahri", venue_men: "Erkaklar", venue_women: "Ayollar", countdown_label: "To'ygacha qoldi", c_d: "Kun", c_h: "Soat", c_m: "Daq", c_s: "Son", map_google: "Google Mapsda ochish", map_yandex: "Yandex Xaritada ochish", f_title: "Ishtirok eting", f_subtitle: "Iltimos, ishtirok etishingizni tasdiqlang", f_name_label: "Ism familiyangiz", f_name_ph: "Ism familiyangizni kiriting", f_phone_label: "Telefon raqamingiz", f_phone_ph: "+998 __ ___ __ __", f_attend_label: "Ishtirok etasizmi?", f_yes: "Ha", f_no: "Yo'q", f_guests_label: "Mehmonlar soni", f_wish_label: "Tabrik so'zi", f_wish_ph: "Kelin-kuyovga tilaklaringiz...", f_submit: "Yuborish", f_submitting: "Yuborilmoqda...", f_success_title: "Rahmat!", f_success_sub: "Xabaringiz qabul qilindi", f_attend_alert: "Iltimos, ishtirok etasizmi — Ha yoki Yo'qni tanlang", f_error_net: "Internet aloqasini tekshiring.", f_error_gen: "Xatolik yuz berdi. Qaytadan urinib ko'ring.", tg_yes: "Ha", tg_no: "Yo'q", blessing_trans: "Alloh sizlarni barakali qilsin" },
+    ru: { door_open: "Нажмите и откройте", inv_label: "Приглашение на свадьбу", inv_text: "С удовольствием приглашаем вас<br>на нашу свадьбу", verse_trans: "\"И среди Его знамений — то, что Он создал для вас супруг из вас самих, чтобы вы находили в них покой\"", cal_month: "Июнь 2026", cal_day: "ПЯТНИЦА", venue_label: "Место проведения", venue_address: "г. Бухара", venue_men: "Мужчины", venue_women: "Женщины", countdown_label: "До свадьбы осталось", c_d: "Дней", c_h: "Часов", c_m: "Мин", c_s: "Сек", map_google: "Открыть в Google Maps", map_yandex: "Открыть в Яндекс Картах", f_title: "Подтвердите участие", f_subtitle: "Пожалуйста, подтвердите свое присутствие", f_name_label: "Ваше имя и фамилия", f_name_ph: "Введите имя и фамилию", f_phone_label: "Ваш номер телефона", f_phone_ph: "+998 __ ___ __ __", f_attend_label: "Вы придете?", f_yes: "Да", f_no: "Нет", f_guests_label: "Количество гостей", f_wish_label: "Поздравление", f_wish_ph: "Ваши пожелания молодоженам...", f_submit: "Отправить", f_submitting: "Отправка...", f_success_title: "Спасибо!", f_success_sub: "Ваше сообщение получено", f_attend_alert: "Пожалуйста, укажите, придете ли вы", f_error_net: "Проверьте подключение к интернету.", f_error_gen: "Произошла ошибка. Попробуйте снова.", tg_yes: "Да", tg_no: "Нет", blessing_trans: "Да благословит вас Аллах" },
+    en: { door_open: "Tap to open", inv_label: "Wedding Invitation", inv_text: "We cordially invite you<br>to our wedding", verse_trans: "\"And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquility with them\"", cal_month: "June 2026", cal_day: "FRIDAY", venue_label: "Venue", venue_address: "Bukhara city", venue_men: "Men", venue_women: "Women", countdown_label: "Countdown to wedding", c_d: "Days", c_h: "Hours", c_m: "Min", c_s: "Sec", map_google: "Open in Google Maps", map_yandex: "Open in Yandex Maps", f_title: "Confirm Attendance", f_subtitle: "Please confirm your attendance", f_name_label: "Your Full Name", f_name_ph: "Enter your full name", f_phone_label: "Your Phone Number", f_phone_ph: "+998 __ ___ __ __", f_attend_label: "Will you attend?", f_yes: "Yes", f_no: "No", f_guests_label: "Number of Guests", f_wish_label: "Congratulatory Message", f_wish_ph: "Your wishes for the couple...", f_submit: "Submit", f_submitting: "Submitting...", f_success_title: "Thank you!", f_success_sub: "Your message has been received", f_attend_alert: "Please select if you will attend", f_error_net: "Please check your internet connection.", f_error_gen: "An error occurred. Please try again.", tg_yes: "Yes", tg_no: "No", blessing_trans: "May Allah bless you both" }
+};
+
+let currentLang = 'uz';
+function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
+    const t = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (t[key]) el.innerHTML = t[key]; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => { const key = el.getAttribute('data-i18n-ph'); if (t[key]) el.placeholder = t[key]; });
+}
+
+// Stars & Petals
+(function(){const c=document.getElementById('starsContainer');for(let i=0;i<40;i++){const s=document.createElement('div');s.className='star';s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;--dur:${2+Math.random()*4}s;animation-delay:${Math.random()*3}s;`;c.appendChild(s)}})();
+(function(){const c=document.getElementById('petalsContainer');for(let i=0;i<12;i++){const p=document.createElement('div');p.className='petal';const sz=6+Math.random()*8;const hue=330+Math.random()*30;p.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz*1.3}px;background:hsla(${hue},60%,70%,.2);animation-delay:${Math.random()*6}s;animation-duration:${5+Math.random()*6}s;`;c.appendChild(p)}})();
+
+// Open Doors
+function openDoors() {
+    const doorScreen = document.getElementById('doorScreen');
+    if(doorScreen.classList.contains('opened')) return;
+    doorScreen.classList.add('opened');
+
+    // Flash
+    const f=document.createElement('div');f.className='flash-overlay';document.body.appendChild(f);setTimeout(()=>f.remove(),1200);
+
+    // Music autoplay
+    const audio=document.getElementById('bgMusic');
+    audio.play().then(()=>{document.getElementById('musicBtn').classList.add('playing');musicPlaying=true}).catch(()=>{});
+
+    setTimeout(()=>{
+        doorScreen.style.display='none';
+        const inv=document.getElementById('invitationScreen');inv.classList.add('show');
+        inv.querySelectorAll('.inv-element').forEach(el=>{setTimeout(()=>el.classList.add('visible'),parseInt(el.dataset.delay)||0)});
+        createRoseParticles();
+        updateCountdown();setInterval(updateCountdown,1000);
+        document.getElementById('musicPlayer').classList.add('show');
+    }, 1200);
+}
+
+function createRoseParticles(){const c=document.getElementById('roseParticles');for(let i=0;i<10;i++){const p=document.createElement('div');p.className='rose-particle';const sz=4+Math.random()*5;const hue=330+Math.random()*30;p.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz*1.2}px;background:hsla(${hue},60%,75%,.15);animation-delay:${Math.random()*5}s;animation-duration:${5+Math.random()*5}s;`;c.appendChild(p)}}
+
+function updateCountdown(){const diff=new Date('2026-06-26T07:00:00+05:00')-new Date();if(diff<=0){['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='0');return}document.getElementById('days').textContent=Math.floor(diff/864e5);document.getElementById('hours').textContent=String(Math.floor(diff%864e5/36e5)).padStart(2,'0');document.getElementById('minutes').textContent=String(Math.floor(diff%36e5/6e4)).padStart(2,'0');document.getElementById('seconds').textContent=String(Math.floor(diff%6e4/1e3)).padStart(2,'0')}
+
+let musicPlaying = false;
+function toggleMusic(){const audio=document.getElementById('bgMusic'),btn=document.getElementById('musicBtn');if(musicPlaying){audio.pause();btn.classList.remove('playing');musicPlaying=false}else{audio.play().then(()=>{btn.classList.add('playing');musicPlaying=true}).catch(()=>{})}}
+const bgMusic=document.getElementById('bgMusic');
+bgMusic.addEventListener('timeupdate',()=>{if(bgMusic.duration){const p=(bgMusic.currentTime/bgMusic.duration)*100;document.getElementById('musicProgress').style.width=p+'%'}});
+
+let attendance='',guestCount=0;
+function selectAttendance(val){attendance=val;document.getElementById('radioYes').classList.toggle('active',val==='ha');document.getElementById('radioNo').classList.toggle('active',val==='yoq');document.getElementById('guestCountSection').style.display=val==='ha'?'block':'none'}
+function selectGuests(num){guestCount=num;document.querySelectorAll('.guest-btn').forEach((btn,i)=>{btn.classList.toggle('active',i===num-1||(num===5&&i===4))})}
+
+function submitRSVP(){
+    const t=translations[currentLang];const nameEl=document.getElementById('guestName'),phoneEl=document.getElementById('guestPhone');
+    nameEl.classList.remove('error');phoneEl.classList.remove('error');let valid=true;
+    if(!nameEl.value.trim()){nameEl.classList.add('error');valid=false}
+    if(!phoneEl.value.trim()){phoneEl.classList.add('error');valid=false}
+    if(!attendance){alert(t.f_attend_alert);return}
+    if(!valid)return;
+    const btn=document.getElementById('submitBtn');btn.disabled=true;document.getElementById('btnText').textContent=t.f_submitting;
+    const TOKEN='7864881637:AAEWD9R2Ik79n_5v4BhnKJDI8HcjR5LY_H4';const CHAT_ID='-1003930433531';
+    const attendText=attendance==='ha'?'✅ '+t.tg_yes:'❌ '+t.tg_no;const countText=attendance==='ha'?guestCount:'—';
+    const text=`💌 *To'y taklifnomasi javobi*\n\n👤 *${t.f_name_label}:* ${nameEl.value.trim()}\n📱 *${t.f_phone_label}:* ${phoneEl.value.trim()}\n🎟 *${t.f_attend_label}:* ${attendText}\n👥 *${t.f_guests_label}:* ${countText}\n💬 *${t.f_wish_label}:* ${document.getElementById('guestWish').value.trim()||'—'}\n\n— *Begzod \& Muslima to'yi • 26.06.2026*`;
+    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:text,parse_mode:'Markdown'})})
+    .then(r=>r.json()).then(data=>{if(data.ok){document.getElementById('rsvpForm').classList.add('hidden');document.getElementById('successMsg').classList.remove('hidden')}else{btn.disabled=false;document.getElementById('btnText').textContent=t.f_submit;alert(t.f_error_gen)}})
+    .catch(()=>{btn.disabled=false;document.getElementById('btnText').textContent=t.f_submit;alert(t.f_error_net)});
+}
+document.querySelectorAll('.form-input').forEach(el=>{el.addEventListener('focus',()=>el.classList.remove('error'))});
+</script>
+
+</body>
+</html>
